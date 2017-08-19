@@ -8,8 +8,11 @@ if (!process.env.NODE_ENV) {
 var opn = require('opn')
 var path = require('path')
 var express = require('express')
+var HttpProxyRules = require('http-proxy-rules')
+
 var webpack = require('webpack')
-var proxyMiddleware = require('http-proxy-middleware')
+// var proxyMiddleware = require('http-proxy-middleware')
+var httpProxy = require('http-proxy')
 var webpackConfig = process.env.NODE_ENV === 'testing'
   ? require('./webpack.prod.conf')
   : require('./webpack.dev.conf')
@@ -41,15 +44,10 @@ compiler.plugin('compilation', function (compilation) {
     cb()
   })
 })
+var apiProxy = httpProxy.createProxyServer()
 
 // proxy api requests
-Object.keys(proxyTable).forEach(function (context) {
-  var options = proxyTable[context]
-  if (typeof options === 'string') {
-    options = { target: options }
-  }
-  app.use(proxyMiddleware(options.filter || context, options))
-})
+var proxyRules = new HttpProxyRules(proxyTable)
 
 // handle fallback for HTML5 history API
 app.use(require('connect-history-api-fallback')())
@@ -60,6 +58,18 @@ app.use(devMiddleware)
 // enable hot-reload and state-preserving
 // compilation error display
 app.use(hotMiddleware)
+
+app.use(function (req, res, next) {
+  var target = proxyRules.match(req)
+  console.log(target)
+  if (target) {
+    apiProxy.web(req, res, {target: target}, function (e) {
+      console.log('PROXY ERR', e)
+    })
+  } else {
+    res.sendStatus(404)
+  }
+})
 
 // serve pure static assets
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
