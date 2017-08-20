@@ -49,10 +49,7 @@ export default {
                 password: this.password
             }).then((response) => {
          })
-      /*   Vue: axios.post('/api/user').then((response) => {
-         }).catch(error => {
-                console.log(error)
-            });*/
+ 
 
       }
     }

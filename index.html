@@ -4,16 +4,25 @@
 <head>
   <meta charset="utf-8">
   <title>tts-front-vue</title>
+<style>
+  .center {
+    position:absolute;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    left:50%;
+    top:50%;
+    width: 30%;
+    border: 3px solid green;
+    padding: 15px;
+    border-radius: 25px;
+}
+</style>
 </head>
 
 <body>
- a <div id="app"></div>
-  <div id="repite">
-    <input v-model="message" placeholder="escríbeme">
-    <p>Message is: {{ message }}</p>
-  </div>
-  <div id="myform"></div>
-  
+  <div class="center"> <div id="app"></div></div>
+
+
   <!-- built files will be auto injected -->
 </body>
 
