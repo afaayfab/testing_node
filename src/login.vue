@@ -34,8 +34,7 @@
         Vue: axios.post('/auth', {
           user: this.username,
           password: this.password
-        }).then((response) => {
-  
+        }).then((response) => {  
           if (response.status === 200) {
             this.$session.start()
             this.$session.set('authToken', response.data.token)
