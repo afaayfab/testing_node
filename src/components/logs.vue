@@ -23,7 +23,7 @@
     </div>
 
     <!-- Main table element -->
-    <b-table striped hover show-empty :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" :filter="filter" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" @filtered="onFiltered">
+    <b-table :empty-text="emptyText" striped hover show-empty :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" :filter="filter" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" @filtered="onFiltered">
       <template slot="time"  scope="row">{{row.value}}</template>
       <template slot="level" scope="row">{{row.value}}</template>
       <template slot="content" scope="row">{{row.value}}</template>
@@ -61,6 +61,7 @@ export default {
   data() {
     return {
       items: items,
+      emptyText: 'No records to show',
       fields: {
         time: { label: 'Time', sortable: true },
         level: { label: 'Level', sortable: true, 'class': 'text-center' },

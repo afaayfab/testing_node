@@ -28,7 +28,7 @@ export default {
   },
   beforeCreate: function() {
     if (this.$session.exists()) {
-      this.$router.push('/')
+      this.$router.push('/main')
     }
   },
   methods: {
