@@ -60,15 +60,23 @@ app.use(devMiddleware)
 app.use(hotMiddleware)
 
 app.use(function (req, res, next) {
-  var target = proxyRules.match(req)
-  console.log(target)
-  if (target) {
-    apiProxy.web(req, res, {target: target}, function (e) {
-      console.log('PROXY ERR', e)
-    })
+  if (req.url.substr(0, 18).indexOf("socket.io") > -1) {
+    //console.log("SOCKET.IO", req.url)
+    return apiProxy.web(req, res, { target: 'wss://localhost:3000', ws: true }, function (e) {
+      //console.log('PROXY ERR',e)
+    });
   } else {
-    res.sendStatus(404)
+    var target = proxyRules.match(req)    
+    if (target) {
+      apiProxy.web(req, res, { target: target }, function (e) {
+        console.log('PROXY ERR', e)
+      })
+    } else {
+      res.sendStatus(404)
+    }
   }
+
+
 })
 
 // serve pure static assets

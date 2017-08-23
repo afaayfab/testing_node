@@ -40,8 +40,7 @@ export default {
   }
 },
   methods: {
-      addUser (){
-         console.log("hola")
+      addUser (){                           
         Vue: axios.post('/api/user',{
                 name: this.name,
                 surname: this.surname,
@@ -49,8 +48,6 @@ export default {
                 password: this.password
             }).then((response) => {
          })
- 
-
       }
     }
 }

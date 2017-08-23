@@ -3,10 +3,10 @@
 import Vue from 'vue'
 /* import App from './myap'
 import UserTemplate from './userTemplate' */
-import Login from './login'
+// import Login from './login'
 
 import BootstrapVue from 'bootstrap-vue'
-
+import App from './App'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -14,6 +14,12 @@ Vue.use(BootstrapVue)
 import router from './router'
 
 Vue.config.productionTip = false
+new Vue({
+  el: '#app',
+  router,
+  template: '<App/>',
+  components: { App }
+})
 
 /* eslint-disable no-new */
 /*
@@ -40,7 +46,7 @@ new Vue({
     UserTemplate
   }
 })
-*/
+*//*
 new Vue({
   el: '#app',
   router,
@@ -49,4 +55,4 @@ new Vue({
     Login
   }
 })
-
+*/

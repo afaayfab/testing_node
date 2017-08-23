@@ -23,7 +23,7 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: 8080,
+    port: 8081,
     autoOpenBrowser: false,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
@@ -31,8 +31,7 @@ module.exports = {
       rules: {
         '/api/user': 'http://localhost:3000/api/user',
         '/auth': 'http://localhost:3000/auth'
-      },
-      default: 'http://localhost:8080'
+      }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
