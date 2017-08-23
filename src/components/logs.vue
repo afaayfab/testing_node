@@ -44,7 +44,7 @@
 
 <script>
 const items = [
-  { time: 'time', level: 'level', content: 'content' }
+ 
 ]
 
 import Vue from 'vue'
@@ -92,7 +92,7 @@ export default {
       this.currentPage = 1;
     },
     formatContent(text, event){
-      var temp = '<div style="width:300px;  word-wrap: break-word;">'+text+'</div>'
+      var temp = '<div style="width:450px;  word-wrap: break-word;">'+text+'</div>'
       console.log(temp)
       return temp
     }
@@ -106,7 +106,18 @@ export default {
       var element = {}
       element.time = thelog.timestamp
       element.level = thelog.level
-      element.content = thelog.message      
+      element.content = thelog.message   
+      var variant 
+      if(thelog.level==='info'){
+        variant = 'success'
+      }else if(thelog.level==='warn'){
+        variant = 'warning'
+      }else if(thelog.level==='error'){
+        variant = 'danger'
+      }else{
+        variant = 'active'
+      }
+      element._rowVariant = variant
       items.unshift(element)
       console.log(val)
     }
@@ -121,7 +132,7 @@ export default {
 </script>
 
 <style>
-.taskDiv {
+.logDiv {
   width: 50%;
   position: absolute;
   transform: translate(-50%, -50%);

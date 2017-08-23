@@ -1,10 +1,11 @@
 <template>
-  <div class="taskDiv">
+
     <!--<Tasks></Tasks>-->
-    <div>
+    <div class="taskDiv">
+      <Tasks></Tasks>
       <Logs></Logs>
     </div>
-  </div>
+
 </template>
 
 <script>
@@ -44,11 +45,11 @@ export default {
 
 <style>
 .taskDiv {
-  width: 50%;
+  width: 80%;
   position: absolute;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0%);
   margin: auto;
   left: 50%;
-  top: 50%;
+  top: 5%;
 }
 </style>
