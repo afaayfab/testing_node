@@ -23,7 +23,7 @@
     </div>
 
     <!-- Main table element -->
-    <b-table striped hover show-empty :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" :filter="filter" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" @filtered="onFiltered">
+    <b-table :empty-text="emptyText" striped hover show-empty :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" :filter="filter" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" @filtered="onFiltered">
       <template slot="time"  scope="row">{{row.value}}</template>
       <template slot="level" scope="row">{{row.value}}</template>
       <template slot="content" scope="row">{{row.value}}</template>
@@ -44,7 +44,7 @@
 
 <script>
 const items = [
-  { time: 'time', level: 'level', content: 'content' }
+ 
 ]
 
 import Vue from 'vue'
@@ -61,6 +61,7 @@ export default {
   data() {
     return {
       items: items,
+      emptyText: 'No records to show',
       fields: {
         time: { label: 'Time', sortable: true },
         level: { label: 'Level', sortable: true, 'class': 'text-center' },
@@ -92,7 +93,7 @@ export default {
       this.currentPage = 1;
     },
     formatContent(text, event){
-      var temp = '<div style="width:300px;  word-wrap: break-word;">'+text+'</div>'
+      var temp = '<div style="width:450px;  word-wrap: break-word;">'+text+'</div>'
       console.log(temp)
       return temp
     }
@@ -106,7 +107,18 @@ export default {
       var element = {}
       element.time = thelog.timestamp
       element.level = thelog.level
-      element.content = thelog.message      
+      element.content = thelog.message   
+      var variant 
+      if(thelog.level==='info'){
+        variant = 'success'
+      }else if(thelog.level==='warn'){
+        variant = 'warning'
+      }else if(thelog.level==='error'){
+        variant = 'danger'
+      }else{
+        variant = 'active'
+      }
+      element._rowVariant = variant
       items.unshift(element)
       console.log(val)
     }
@@ -121,7 +133,7 @@ export default {
 </script>
 
 <style>
-.taskDiv {
+.logDiv {
   width: 50%;
   position: absolute;
   transform: translate(-50%, -50%);

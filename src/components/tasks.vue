@@ -23,7 +23,7 @@
         </div>
 
         <!-- Main table element -->
-        <b-table striped hover show-empty :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" :filter="filter" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" @filtered="onFiltered">
+        <b-table :empty-text="emptyText" striped hover show-empty :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" :filter="filter" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" @filtered="onFiltered">
             <template slot="name" scope="row">{{row.value.first}} {{row.value.last}}</template>
             <template slot="isActive" scope="row">{{row.value?'Yes :)':'No :('}}</template>
             <template slot="actions" scope="row">
@@ -71,9 +71,17 @@ import VueSocketio from 'vue-socket.io';
 import Vue from 'vue'
 Vue.use(VueSocketio, 'http://localhost:3000');
 export default {
+    beforeCreate: function() {
+       console.log("Se crean las tasks")
+    },
+    destroyed: function(){
+        console.log("Se destruye la instancia")
+    },
+
     data() {
         return {
             items: items,
+            emptyText:'no hay datos',
             fields: {
                 name: { label: 'Person Full name', sortable: true },
                 age: { label: 'Person age', sortable: true, 'class': 'text-center' },

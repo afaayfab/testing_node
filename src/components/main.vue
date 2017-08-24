@@ -1,7 +1,15 @@
 <template>
-  <div class="taskDiv">
-    <!--<Tasks></Tasks>-->
-    <div>
+  <!--<Tasks></Tasks>-->
+  <div>
+    <template v-if="!showTasks">
+      <b-button  style="top:1%;margin:auto;" v-on:click="changeTask(showTasks)" variant="success">Show Tasks</b-button>
+     </template>
+    <template v-else>
+      <b-button  style="top:1%;margin:auto;" v-on:click="changeTask(showTasks)" variant="success">HIde Tasks</b-button>
+    </template>
+
+    <div class="taskDiv">
+      <Tasks v-if="showTasks"></Tasks>
       <Logs></Logs>
     </div>
   </div>
@@ -20,6 +28,13 @@ Vue.use(VueSocketio, 'http://localhost:8081');
 Vue.use(VueSession)
 Vue.use(VueAxios, axios)
 export default {
+  data() {
+    return { showTasks: false }
+  },
+  beforeCreate: function() {
+
+    console.log("me creo ya")
+  },
   sockets: {
     connect: function() {
       console.log('socket connected')
@@ -35,6 +50,18 @@ export default {
       this.$router.push('/')
     }
   },
+  methods: {
+    changeTask(showTasks) {
+      console.log("1º" + this.showTasks)
+      if (showTasks) {
+        this.showTasks = false
+        console.log("2º" + this.showTasks)
+      } else {
+        this.showTasks = true
+        console.log("3º" + this.showTasks)
+      }
+    }
+  },
   components: {
     Tasks,
     Logs
@@ -44,11 +71,11 @@ export default {
 
 <style>
 .taskDiv {
-  width: 50%;
+  width: 80%;
   position: absolute;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0%);
   margin: auto;
   left: 50%;
-  top: 50%;
+  top: 20%;
 }
 </style>
