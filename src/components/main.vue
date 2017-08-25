@@ -1,6 +1,6 @@
 <template>
   <!--<Tasks></Tasks>-->
-  <div>
+  <div style="margin-top: 60px;">
     <template v-if="!showTasks">
       <b-button  style="top:1%;margin:auto;" v-on:click="changeTask(showTasks)" variant="success">Show Tasks</b-button>
      </template>
@@ -77,5 +77,6 @@ export default {
   margin: auto;
   left: 50%;
   top: 20%;
+  
 }
 </style>

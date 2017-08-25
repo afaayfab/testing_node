@@ -100,7 +100,7 @@ export default {
   },
   sockets: {
     connect: function() {
-      console.log('socket connected')
+      console.log('Conectado a WS de Logs')
     },
     logFile: function(val) {
       var thelog = JSON.parse(val)

@@ -30,7 +30,9 @@ module.exports = {
     proxyTable: {
       rules: {
         '/api/user': 'http://localhost:3000/api/user',
-        '/auth': 'http://localhost:3000/auth'
+        '/auth': 'http://localhost:3000/auth',
+        '/api/subscribe/task':'http://localhost:3000/api/subscribe/task',
+        '/api/unsubscribe/task': 'http://localhost:3000/api/unsubscribe/task'
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"

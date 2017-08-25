@@ -24,12 +24,10 @@
 
         <!-- Main table element -->
         <b-table :empty-text="emptyText" striped hover show-empty :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" :filter="filter" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" @filtered="onFiltered">
-            <template slot="name" scope="row">{{row.value.first}} {{row.value.last}}</template>
-            <template slot="isActive" scope="row">{{row.value?'Yes :)':'No :('}}</template>
-            <template slot="actions" scope="row">
-                <!-- We use click.stop here to prevent a 'row-clicked' event from also happening -->
-                <b-btn size="sm" @click.stop="details(row.item,row.index,$event.target)">Details</b-btn>
-            </template>
+            <template slot="task" scope="row">{{row.value}}</template>
+            <template slot="duration" scope="row">{{row.value}}</template>
+            <template slot="assignedby" scope="row">{{row.value}}</template>
+            <template slot="assignedto" scope="row">{{row.value}}</template>
         </b-table>
 
         <p>
@@ -47,46 +45,45 @@
 
 <script>
 const items = [
-    { isActive: true, age: 40, name: { first: 'Dickerson', last: 'Macdonald' } },
-    { isActive: false, age: 21, name: { first: 'Larsen', last: 'Shaw' } },
-    {
-        _rowVariant: 'success',
-        isActive: false, age: 9, name: { first: 'Mini', last: 'Navarro' }
-    },
-    { isActive: false, age: 89, name: { first: 'Geneva', last: 'Wilson' } },
-    { isActive: true, age: 38, name: { first: 'Jami', last: 'Carney' } },
-    { isActive: false, age: 27, name: { first: 'Essie', last: 'Dunlap' } },
-    { isActive: true, age: 40, name: { first: 'Thor', last: 'Macdonald' } },
-    {
-        _cellVariants: { age: 'danger', isActive: 'warning' },
-        isActive: true, age: 87, name: { first: 'Larsen', last: 'Shaw' }
-    },
-    { isActive: false, age: 26, name: { first: 'Mitzi', last: 'Navarro' } },
-    { isActive: false, age: 22, name: { first: 'Genevive', last: 'Wilson' } },
-    { isActive: true, age: 38, name: { first: 'John', last: 'Carney' } },
-    { isActive: false, age: 29, name: { first: 'Dick', last: 'Dunlap' } }
 ];
 
 import VueSocketio from 'vue-socket.io';
 import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+Vue.use(VueAxios, axios)
 Vue.use(VueSocketio, 'http://localhost:3000');
 export default {
     beforeCreate: function() {
-       console.log("Se crean las tasks")
+        console.log("Se crean las tasks")
+        Vue: axios.get('/api/subscribe/task').then((response) => {
+            if (response.status === 200) {
+                console.log("sacar loader y todo")
+            } else {
+                console.log("sacar popup-error")
+            }
+        })
     },
-    destroyed: function(){
+    destroyed: function() {
         console.log("Se destruye la instancia")
+        Vue: axios.get('/api/unsubscribe/task').then((response) => {
+            if (response.status === 200) {
+                console.log("sacar loader y todo")
+            } else {
+                console.log("sacar popup-error")
+            }
+        })
     },
-
     data() {
         return {
             items: items,
-            emptyText:'no hay datos',
+            emptyText: 'no hay datos',
             fields: {
-                name: { label: 'Person Full name', sortable: true },
-                age: { label: 'Person age', sortable: true, 'class': 'text-center' },
-                isActive: { label: 'is Active' },
-                actions: { label: 'Actions' }
+                task: { label: 'Task', sortable: true },
+                duration: { label: 'Duration', sortable: true, 'class': 'text-center' },
+                assignedby: { label: 'Asigned By' },
+                assignedto: { label: 'Asigned To' }
             },
             currentPage: 1,
             perPage: 5,
@@ -112,7 +109,50 @@ export default {
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length;
             this.currentPage = 1;
+        },
+        getItem(id) {
+            var item
+            for (var i in this.items) {
+                if (this.items[i].task === id) {
+                    item = this.items[i]
+                    break
+                }
+            }
+            console.log(item)
         }
-    }
+    },
+    sockets: {
+        connect: function() {
+            console.log('Conectado a socket Task')
+        },
+        disconnect: function(){
+            
+        },
+        task: function(val) {
+            var thelog = JSON.parse(val)
+            var element = {}
+            element.task = thelog.task
+            element.duration = thelog.duration
+            element.assignedby = thelog.assignedby
+            element.assignedto = thelog.assignedto
+            element.id = thelog.id
+            items.unshift(element)
+            console.log(val)
+        },
+        updateTask: function(val) {
+            var thelog = JSON.parse(val)
+            var item
+            for (var i in this.items) {
+                if (this.items[i].task === thelog.task) {
+                    this.items[i].task = thelog.task
+                    this.items[i].duration = thelog.duration
+                    this.items[i].assignedby = thelog.assignedby
+                    this.items[i].assignedto = thelog.assignedto
+                    this.items[i].id = thelog.id
+                    break
+                }
+            }            
+        }
+    },
 }
 </script>

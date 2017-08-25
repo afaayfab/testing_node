@@ -17,6 +17,7 @@
     "vue-router": "^2.6.0"
   },
   "devDependencies": {
+    "vuelayers":"0.6.2",
     "vue-socket.io": "2.1.1-a",
     "vue-session": "0.9.5",
     "bootstrap-vue": "0.22.1",

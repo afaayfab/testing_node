@@ -7,9 +7,17 @@ import UserTemplate from './userTemplate' */
 
 import BootstrapVue from 'bootstrap-vue'
 import App from './App'
+import Users from './components/users'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import VueLayers from 'vuelayers'
+import ol3 from './components/ol3'
 
+Vue.use(VueLayers)
+// now all components installed and ready to use
+new Vue({  
+  
+})
 Vue.use(BootstrapVue)
 import router from './router'
 
@@ -18,7 +26,8 @@ new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  render: h => h(App)
 })
 
 /* eslint-disable no-new */

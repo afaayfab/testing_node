@@ -67,6 +67,7 @@ app.use(function (req, res, next) {
     });
   } else {
     var target = proxyRules.match(req)    
+    console.log(target)
     if (target) {
       apiProxy.web(req, res, { target: target }, function (e) {
         console.log('PROXY ERR', e)
