@@ -53,7 +53,9 @@ import VueAxios from 'vue-axios'
 import VueSession from 'vue-session'
 import VueSocketio from 'vue-socket.io';
 
-Vue.use(VueSocketio, 'http://localhost:8081');
+import config from '../utils/config';
+
+Vue.use(VueSocketio, 'http://'+config.host+':'+config.port);
 Vue.use(VueSession)
 Vue.use(VueAxios, axios)
 

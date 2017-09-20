@@ -7,6 +7,7 @@ yarn-error.log*
 test/e2e/reports
 selenium-debug.log
 launch.json
+.history/*
 # Editor directories and files
 .idea
 *.suo

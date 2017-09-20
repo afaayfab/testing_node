@@ -29,8 +29,9 @@ import VueSession from 'vue-session'
 import Tasks from './tasks';
 import Logs from './logs'
 import VueSocketio from 'vue-socket.io';
+import config from '../utils/config';
 
-Vue.use(VueSocketio, 'http://localhost:8081');
+Vue.use(VueSocketio, 'http://'+config.host+':'+config.port);
 Vue.use(VueSession)
 Vue.use(VueAxios, axios)
 export default {

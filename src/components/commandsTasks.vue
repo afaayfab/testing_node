@@ -24,10 +24,13 @@
 
         <!-- Main table element -->
         <b-table :empty-text="emptyText" striped hover show-empty :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" :filter="filter" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" @filtered="onFiltered">
-            <template slot="task" scope="row">{{row.value}}</template>
-            <template slot="duration" scope="row">{{row.value}}</template>
-            <template slot="assignedby" scope="row">{{row.value}}</template>
-            <template slot="assignedto" scope="row">{{row.value}}</template>
+            <template slot="type" scope="row">{{row.value}}</template>
+            <template slot="timestamp" scope="row">{{row.value}}</template>
+            <template slot="pid" scope="row">{{row.value}}</template>
+            <template slot="hostname" scope="row">{{row.value}}</template>
+            <template slot="uuid" scope="row">{{row.value}}</template>
+            <template slot="rootId" scope="row">{{row.value}}</template>
+            <template slot="parentId" scope="row">{{row.value}}</template>
         </b-table>
 
         <p>
@@ -58,34 +61,35 @@ import config from '../utils/config';
 Vue.use(VueSocketio, 'http://'+config.host+':'+config.port);
 export default {
     beforeCreate: function() {
-        console.log("Se crean las tasks")
-        Vue: axios.get('/api/subscribe/task').then((response) => {
+        console.log("Se crea una tarea Celery")
+        Vue: axios.get('/api/consumeCommands').then((response) => {
             if (response.status === 200) {
-                console.log("sacar loader y todo")
-            } else {
-                console.log("sacar popup-error")
+                console.log('empieza el consumer de eventos de celery')
             }
         })
     },
     destroyed: function() {
-        console.log("Se destruye la instancia")
-        Vue: axios.get('/api/unsubscribe/task').then((response) => {
-            if (response.status === 200) {
-                console.log("sacar loader y todo")
-            } else {
-                console.log("sacar popup-error")
-            }
-        })
+        /*   console.log("Se destruye la instancia")
+          Vue: axios.get('/api/unsubscribe/task').then((response) => {
+              if (response.status === 200) {
+                  console.log("sacar loader y todo")
+              } else {
+                  console.log("sacar popup-error")
+              }
+          }) */
     },
     data() {
         return {
             items: items,
             emptyText: 'no hay datos',
             fields: {
-                task: { label: 'Task', sortable: true },
-                duration: { label: 'Duration', sortable: true, 'class': 'text-center' },
-                assignedby: { label: 'Asigned By' },
-                assignedto: { label: 'Asigned To' }
+                type: { label: 'Type', sortable: true },
+                rootId: { label: 'RootId', sortable: true },
+                parentId: { label: 'ParentId', sortable: true },
+                timestamp: { label: 'Timestamp', sortable: true, 'class': 'text-center' },
+                pid: { label: 'PID' },
+                hostname: { label: 'hostname' },
+                uuid: { label: 'UUID' }
             },
             currentPage: 1,
             perPage: 5,
@@ -125,35 +129,23 @@ export default {
     },
     sockets: {
         connect: function() {
-            console.log('Conectado a socket Task')
+            console.log('Conectado a socket Commands')
         },
-        disconnect: function(){
-            
+        disconnect: function() {
+
         },
-        task: function(val) {
-            var thelog = JSON.parse(val)
+        celeryCommands: function(val) {
+            var celerytask = JSON.parse(val)[0]
             var element = {}
-            element.task = thelog.task
-            element.duration = thelog.duration
-            element.assignedby = thelog.assignedby
-            element.assignedto = thelog.assignedto
-            element.id = thelog.id
+            element.hostname = celerytask.hostname
+            element.pid = celerytask.pid
+            element.timestamp = celerytask.timestamp
+            element.type = celerytask.type
+            element.uuid = celerytask.uuid
+            element.rootId = celerytask.root_id
+            element.parentId = celerytask.parent_id
             items.unshift(element)
             console.log(val)
-        },
-        updateTask: function(val) {
-            var thelog = JSON.parse(val)
-            var item
-            for (var i in this.items) {
-                if (this.items[i].task === thelog.task) {
-                    this.items[i].task = thelog.task
-                    this.items[i].duration = thelog.duration
-                    this.items[i].assignedby = thelog.assignedby
-                    this.items[i].assignedto = thelog.assignedto
-                    this.items[i].id = thelog.id
-                    break
-                }
-            }            
         }
     },
 }

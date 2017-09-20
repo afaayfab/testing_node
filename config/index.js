@@ -32,7 +32,9 @@ module.exports = {
         '/api/user': 'http://localhost:3000/api/user',
         '/auth': 'http://localhost:3000/auth',
         '/api/subscribe/task':'http://localhost:3000/api/subscribe/task',
-        '/api/unsubscribe/task': 'http://localhost:3000/api/unsubscribe/task'
+        '/api/unsubscribe/task': 'http://localhost:3000/api/unsubscribe/task',
+        '/api/launchTask': 'http://localhost:3000/api/launchTask',
+        '/api/consumeCommands': 'http://localhost:3000/api/consumeCommands'
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
