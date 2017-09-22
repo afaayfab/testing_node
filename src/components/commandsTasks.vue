@@ -1,5 +1,31 @@
 <template>
     <div>
+
+        <tree-view :data="jsonSource" :options="{maxDepth: 10}"></tree-view>
+
+        <div id="taskTable" class="table table-striped">
+            <table>
+                <thead>
+                    <th>ParentId</th>
+                    <th>UUID</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>#Tasks</th>
+                </thead>
+                <tbody>
+                    <tr v-for="row in rows" v-bind:id="row.uuid">
+                        <td v-model="row.parentId">{{row.parentId}}</td>
+                        <td v-model="row.uuid">{{row.uuid}}</td>
+                        <td v-model="row.decription">{{row.decription}}</td>
+                        <td v-model="row.type">{{row.type}}</td>
+                        <td v-model="row.status">{{row.status}}</td>
+                        <td v-model="row.ntasks">{{row.ntasks}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div class="my-1 row">
             <div class="col-md-6">
                 <b-form-fieldset horizontal label="Rows per page" :label-cols="6">
@@ -24,10 +50,9 @@
 
         <!-- Main table element -->
         <b-table :empty-text="emptyText" striped hover show-empty :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" :filter="filter" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" @filtered="onFiltered">
+            <template slot="description" scope="row">{{row.value}}</template>
             <template slot="type" scope="row">{{row.value}}</template>
             <template slot="timestamp" scope="row">{{row.value}}</template>
-            <template slot="pid" scope="row">{{row.value}}</template>
-            <template slot="hostname" scope="row">{{row.value}}</template>
             <template slot="uuid" scope="row">{{row.value}}</template>
             <template slot="rootId" scope="row">{{row.value}}</template>
             <template slot="parentId" scope="row">{{row.value}}</template>
@@ -54,11 +79,12 @@ import VueSocketio from 'vue-socket.io';
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-
+import TreeView from "vue-json-tree-view"
+Vue.use(TreeView)
 Vue.use(VueAxios, axios)
 import config from '../utils/config';
 
-Vue.use(VueSocketio, 'http://'+config.host+':'+config.port);
+Vue.use(VueSocketio, 'http://' + config.host + ':' + config.port);
 export default {
     beforeCreate: function() {
         console.log("Se crea una tarea Celery")
@@ -80,9 +106,12 @@ export default {
     },
     data() {
         return {
+            jsonSource: [],
+            rows: [],
             items: items,
             emptyText: 'no hay datos',
             fields: {
+                decription: { label: 'Description', sortable: true },
                 type: { label: 'Type', sortable: true },
                 rootId: { label: 'RootId', sortable: true },
                 parentId: { label: 'ParentId', sortable: true },
@@ -102,6 +131,60 @@ export default {
         }
     },
     methods: {
+        addRowCommands(parentUid, rowRegistry) {
+            if (parentUid != undefined) {
+                var found = false
+                for (var i in this.rows) {
+                    if (this.rows[i].uuid === parentUid) {
+                        if (this.rows[i] === 'TERCER NIVEL') {
+                            var tasks = this.rows[i].ntasks;
+                            if (tasks === undefined || tasks === null) {
+                                tasks = 0
+                            }
+                            tasks++
+                            this.rows[i].ntasks = tasks
+                        } else {
+                            this.rows.splice(i + 1, 0, rowRegistry)
+                            found = true
+                            break
+                        }
+
+                    }
+                }
+                if (!found) {
+                    this.rows.push(rowRegistry)
+                }
+            } else {
+                this.rows.push(rowRegistry)
+            }
+
+        },
+        addSource(sourceActual, item) {
+
+            var found = false
+            for (var i in sourceActual) {
+                if (sourceActual[i].uuid === item.parentId) {
+                    if (sourceActual[i].children == undefined) {
+                        sourceActual[i].children = []
+                    }
+                    var newChild = {}
+                    newChild.uuid = item.uuid
+                    newChild.description = item.decription
+                    sourceActual[i].children.push(newChild)
+                    found = true                    
+                }
+            }
+            if (!found) {
+                for (var i in sourceActual) {
+                    if (sourceActual[i].children == undefined) {
+                        sourceActual[i].children = []
+                    }
+                    this.addSource(sourceActual[i].children, item)                    
+                }
+            }
+
+
+        },
         details(item, index, button) {
             this.modalDetails.data = JSON.stringify(item, null, 2);
             this.modalDetails.index = index;
@@ -135,7 +218,15 @@ export default {
 
         },
         celeryCommands: function(val) {
-            var celerytask = JSON.parse(val)[0]
+            var total = JSON.parse(val).length
+            var celerytask
+            if (total == 1) {
+                celerytask = JSON.parse(val)[0]
+            } else {
+                celerytask = JSON.parse(val)
+
+            }
+
             var element = {}
             element.hostname = celerytask.hostname
             element.pid = celerytask.pid
@@ -144,8 +235,27 @@ export default {
             element.uuid = celerytask.uuid
             element.rootId = celerytask.root_id
             element.parentId = celerytask.parent_id
+            element.decription = celerytask.args
+            if (JSON.stringify(element) === JSON.stringify({})) {
+                console.log("AQUI->>>" + val)
+            }
+
             items.unshift(element)
-            console.log(val)
+
+            if (element.type === 'task-sent') {
+                this.addRowCommands(celerytask.parent_id, element)
+                this.addSource(this.jsonSource, element)
+            }
+
+            if (element.type === 'task-received' && element.rootId == undefined) {
+
+                this.jsonSource.push(element)
+            }
+
+            if (element.status === 'TERCER NIVEL') {
+
+            }
+
         }
     },
 }

@@ -95,8 +95,7 @@ export default {
       this.currentPage = 1;
     },
     formatContent(text, event){
-      var temp = '<div style="width:450px;  word-wrap: break-word;">'+text+'</div>'
-      console.log(temp)
+      var temp = '<div style="width:450px;  word-wrap: break-word;">'+text+'</div>'      
       return temp
     }
   },
@@ -122,7 +121,7 @@ export default {
       }
       element._rowVariant = variant
       items.unshift(element)
-      console.log(val)
+      
     }
   },
   beforeCreate: function() {
