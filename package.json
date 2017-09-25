@@ -17,6 +17,7 @@
     "vue-router": "^2.6.0"
   },
   "devDependencies": {
+    "d3":"4.10.2",
     "vue-json-tree-view":"2.1.1",
     "vuelayers":"0.6.2",
     "vue-socket.io": "2.1.1-a",
@@ -71,7 +72,10 @@
     "webpack": "^2.6.1",
     "webpack-dev-middleware": "^1.10.0",
     "webpack-hot-middleware": "^2.18.0",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "vue-progress":"0.2.1",
+    "vue-progressbar":"0.7.3",
+    "vue-progress-bar":"1.0.1"
   },
   "engines": {
     "node": ">= 4.0.0",
