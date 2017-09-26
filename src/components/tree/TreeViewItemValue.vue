@@ -1,15 +1,18 @@
 <template>
   <div>
-    <span class="tree-view-item-key">{{keyString}}</span>
-    <input v-if="modifiable" class="tree-view-item-value" :class="getValueType(data)" v-model="valueString" @keyup.enter="onUpdateData" @blur="onUpdateData">
-
-    <span v-if="isBarTag(valueFormed)"  :class="getValueType(data)">   
-      <progress-bar style="width: 50%;" v-if="isBar(valueFormed)" v-model="progressValue"></progress-bar>
-      <div v-else class="rojo">{{ valueFormed }}</div>
-    </span>
-
-    
-    <span v-show="error">{{ error }}</span>
+    <div class="node">
+      <div v-if="isDescription(keyString)" class="nodeKey">
+        <span class="tree-view-item-key">{{keyString.replace('v-key-node','').replace('"', '').replace('"', '').replace(':', '')}}</span>
+      </div>
+      
+      <div class="nodeValue">
+        <span v-if="isBarTag(valueFormed)" :class="getValueType(data)">
+          <progress-bar style="width: 50%;" v-if="isBar(valueFormed)" v-model="progressValue"></progress-bar>
+          <div v-else class="rojo">{{ valueFormed }}</div>
+        </span>
+      </div>
+      <span v-show="error">{{ error }}</span>
+    </div>
   </div>
 </template>
 
@@ -22,12 +25,12 @@ Vue.component('progress-bar', require('vue-progress-bar'));
 export default {
   name: 'tree-view-item',
   props: ['data', 'modifiable', 'key-string'],
-  components:{
-      'progress-bar': require('vue-progress-bar')
+  components: {
+    'progress-bar': require('vue-progress-bar')
   },
-  data: function() {    
+  data: function() {
     return {
-      progressValue:0,
+      progressValue: 0,
       options: {
         color: '#007FFF',
         strokeWidth: 5,
@@ -50,13 +53,16 @@ export default {
 
   },
   methods: {
+    isDescription: function(value){
+      return value.startsWith('"v-key-node')
+    },
     isBar: function(value) {
-      if(_.isNumber(value)){
+      if (_.isNumber(value)) {
         this.progressValue = parseInt(value)
       }
       return _.isNumber(value)
     },
-    isBarTag: function(value){
+    isBarTag: function(value) {
       return _.isNumber(value)
     },
     onUpdateData: function() {
@@ -124,8 +130,25 @@ export default {
 </script>
 <style>
 .rojo {
-  color: red
+  color: red;
+}
+.nodeKey{
+  width:auto;
+  font-weight: bold;
+  text-align: right;
+  margin-right: 5px;
+}
+.node{
+  display:flex;
+  text-align:left;
+}
+.nodeValue{
+    width: 50%;
+    margin-bottom: 7px;
+}
+.progress-bar{
+  color:black;
 }
 </style>
 
-</style>
+

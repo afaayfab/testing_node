@@ -108,8 +108,8 @@ export default {
     },
     data() {
         return {
-            //jsonSource: [],
-            jsonSource : JSON.parse('[{\"type\":\"task-received\",\"uuid\":\"c293343f-71ac-4a7a-b2d1-6491d50e5c23\",\"rootId\":null,\"parentId\":null,\"decription\":\"(\'pruebas\',)\",\"children\":[{\"uuid\":\"6a85a2c5-eced-4aab-a061-eb8e1e2e842e\",\"description\":\"(\'WORK-0\',)\",\"num\":3,\"children\":[{\"uuid\":\"4d73a149-146c-4e47-a611-98c41f5b344c\",\"description\":\"(\'JOB-0\',)\",\"num\":3,\"children\":[{\"uuid\":\"7aad55fd-a45b-4324-88e3-c6d8de3edb8a\",\"description\":\"(\'PROCESS-0\',)\",\"num\":3,\"children\":[]},{\"uuid\":\"5ce72bef-8de6-4847-a33a-1ede48623e38\",\"description\":\"(\'PROCESS-1\',)\",\"num\":3,\"children\":[]}]},{\"uuid\":\"4a78aa4f-c93d-4962-bd27-6f175a0a0f87\",\"description\":\"(\'JOB-1\',)\",\"num\":3,\"children\":[{\"uuid\":\"5b86e2f5-ccc2-4dc8-8af8-5444802d8c98\",\"description\":\"(\'PROCESS-0\',)\",\"num\":3,\"children\":[]},{\"uuid\":\"7912fe2d-9bff-4d18-a553-5e5b685ac18a\",\"description\":\"(\'PROCESS-1\',)\",\"num\":3,\"children\":[]}]}]},{\"uuid\":\"67aae82a-0fe1-4a27-a0ea-a1b87b858e79\",\"description\":\"(\'WORK-1\',)\",\"num\":3,\"children\":[{\"uuid\":\"4bb73527-141a-4567-9258-e86d1fd1e8b3\",\"description\":\"(\'JOB-0\',)\",\"num\":3,\"children\":[{\"uuid\":\"17d039d2-e4a5-4032-a073-55aa6ed1cd03\",\"description\":\"(\'PROCESS-0\',)\",\"num\":3},{\"uuid\":\"a3bde92b-b10e-4df0-b4ff-18c497dd63fd\",\"description\":\"(\'PROCESS-1\',)\",\"num\":3}]},{\"uuid\":\"63a1bef8-8638-4532-ae90-68466b334d42\",\"description\":\"(\'JOB-1\',)\",\"num\":3,\"children\":[{\"uuid\":\"63babc4a-07c0-48a3-a5b2-0cdc948a4a8e\",\"description\":\"(\'PROCESS-0\',)\",\"num\":3},{\"uuid\":\"2cf50c1b-d44c-4b74-87a0-7863a2b0902f\",\"description\":\"(\'PROCESS-1\',)\",\"num\":3}]}]}]}]'),
+            jsonSource: [],
+          //  jsonSource : JSON.parse('[{\"type\":\"task-received\",\"uuid\":\"c293343f-71ac-4a7a-b2d1-6491d50e5c23\",\"rootId\":null,\"parentId\":null,\"decription\":\"(\'pruebas\',)\",\"children\":[{\"uuid\":\"6a85a2c5-eced-4aab-a061-eb8e1e2e842e\",\"description\":\"(\'WORK-0\',)\",\"num\":3,\"children\":[{\"uuid\":\"4d73a149-146c-4e47-a611-98c41f5b344c\",\"description\":\"(\'JOB-0\',)\",\"num\":3,\"children\":[{\"uuid\":\"7aad55fd-a45b-4324-88e3-c6d8de3edb8a\",\"description\":\"(\'PROCESS-0\',)\",\"num\":3,\"children\":[]},{\"uuid\":\"5ce72bef-8de6-4847-a33a-1ede48623e38\",\"description\":\"(\'PROCESS-1\',)\",\"num\":3,\"children\":[]}]},{\"uuid\":\"4a78aa4f-c93d-4962-bd27-6f175a0a0f87\",\"description\":\"(\'JOB-1\',)\",\"num\":3,\"children\":[{\"uuid\":\"5b86e2f5-ccc2-4dc8-8af8-5444802d8c98\",\"description\":\"(\'PROCESS-0\',)\",\"num\":3,\"children\":[]},{\"uuid\":\"7912fe2d-9bff-4d18-a553-5e5b685ac18a\",\"description\":\"(\'PROCESS-1\',)\",\"num\":3,\"children\":[]}]}]},{\"uuid\":\"67aae82a-0fe1-4a27-a0ea-a1b87b858e79\",\"description\":\"(\'WORK-1\',)\",\"num\":3,\"children\":[{\"uuid\":\"4bb73527-141a-4567-9258-e86d1fd1e8b3\",\"description\":\"(\'JOB-0\',)\",\"num\":3,\"children\":[{\"uuid\":\"17d039d2-e4a5-4032-a073-55aa6ed1cd03\",\"description\":\"(\'PROCESS-0\',)\",\"num\":3},{\"uuid\":\"a3bde92b-b10e-4df0-b4ff-18c497dd63fd\",\"description\":\"(\'PROCESS-1\',)\",\"num\":3}]},{\"uuid\":\"63a1bef8-8638-4532-ae90-68466b334d42\",\"description\":\"(\'JOB-1\',)\",\"num\":3,\"children\":[{\"uuid\":\"63babc4a-07c0-48a3-a5b2-0cdc948a4a8e\",\"description\":\"(\'PROCESS-0\',)\",\"num\":3},{\"uuid\":\"2cf50c1b-d44c-4b74-87a0-7863a2b0902f\",\"description\":\"(\'PROCESS-1\',)\",\"num\":3}]}]}]}]'),
             treeData: {},//JSON.parse("{\"hostname\":\"celery@BDPROCDES\",\"pid\":5692,\"timestamp\":1506334613.2528439,\"type\":\"task-received\",\"uuid\":\"c8f8bf68-32c7-4a90-94e0-01e241b942c5\",\"rootId\":null,\"parentId\":null,\"decription\":\"('pruebas',)\",\"children\":[{\"uuid\":\"f7cb7e50-1b1c-4a9b-b0f8-1d1785dce5c6\",\"decription\":\"('WORK-0',)\",\"children\":[{\"uuid\":\"77013db4-825b-433c-95ae-02d0ed699ca1\",\"decription\":\"('JOB-0',)\",\"children\":[{\"uuid\":\"b04ee931-2c98-42a8-b005-15458366f68e\",\"decription\":\"('PROCESS-0',)\",\"children\":[]},{\"uuid\":\"0cef4c07-fdc9-4342-8faf-004ce15f42a3\",\"decription\":\"('PROCESS-1',)\",\"children\":[]}]},{\"uuid\":\"6a3dfc0b-4482-42b3-a92d-fbe18e3c5040\",\"decription\":\"('JOB-1',)\",\"children\":[{\"uuid\":\"5ddbe9d7-8fba-4ec8-a879-c72ccfe56381\",\"decription\":\"('PROCESS-0',)\",\"children\":[]},{\"uuid\":\"74a3635b-8e90-40b3-a137-957faef0d9a1\",\"decription\":\"('PROCESS-1',)\",\"children\":[]}]}]},{\"uuid\":\"b8c69f40-cca4-4b72-9372-dce1cf023b97\",\"decription\":\"('WORK-1',)\",\"children\":[{\"uuid\":\"b57722b0-f0d0-4243-8af6-d6938ec435c2\",\"decription\":\"('JOB-0',)\",\"children\":[{\"uuid\":\"61a999c3-a4ca-435c-b601-7227c92cb970\",\"decription\":\"('PROCESS-0',)\"},{\"uuid\":\"a86e34e0-ca33-46f8-8df8-0898262fc4ff\",\"decription\":\"('PROCESS-1',)\"}]},{\"uuid\":\"ced285da-42a2-441f-b01d-3907984ed98e\",\"decription\":\"('JOB-1',)\",\"children\":[{\"uuid\":\"b1d9fd36-75e6-4b89-b54d-8e342db5d811\",\"decription\":\"('PROCESS-0',)\"},{\"uuid\":\"b9b871a2-6444-4dd8-bf2d-2e277162f032\",\"decription\":\"('PROCESS-1',)\"}]}]}]}"),
             rows: [],
             items: items,
@@ -173,8 +173,8 @@ export default {
                     }
                     var newChild = {}
                     newChild.uuid = item.uuid
-                    newChild.description = item.decription
-                    newChild.num = 3
+                    newChild['v-key-node'+item.decription] = 2 
+                    //newChild.num = 3
                     sourceActual[i].children.push(newChild)
                     found = true
                 }
@@ -260,7 +260,7 @@ export default {
                 root.uuid = celerytask.uuid
                 root.rootId = celerytask.root_id
                 root.parentId = celerytask.parent_id
-                root.decription = celerytask.args
+                root['v-key-node'+celerytask.args] =  6
                 this.jsonSource.push(root)
             }
 
